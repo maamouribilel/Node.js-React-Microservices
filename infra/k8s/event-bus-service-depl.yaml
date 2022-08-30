@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-bus-service-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: event-bus-service
+  template:
+    metadata:
+      labels:
+        app: event-bus-service
+    spec:
+      containers:
+        - name: event-bus-service
+          image: maamouribilel/blog-event-bus-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-bus-service-clusterip-srv
+spec:
+  selector:
+    app: event-bus-service
+  ports:
+    - name: event-bus-service
+      protocol: TCP
+      port: 4005
+      targetPort: 4005          
